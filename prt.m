@@ -172,14 +172,19 @@ if strcmp(format, 'auto')
   end
 end
 
-format = sprintf('-d%s', format);
-resStr = sprintf('-r%d', res);
+formatOpt = sprintf('-d%s', format);
+resOpt = sprintf('-r%d', res);
 
 if filename
-  % Make parent directories if necessary
-  [d,f,e] = fileparts(filename);
-  if ~exist(d, 'dir'), mkdir(d); end
-
-  % Actually print it
-  print(format, resStr, filename)
+    filename = [filename '.' format];
+    
+    % Make parent directories if necessary
+    [d,f,e] = fileparts(filename);
+    if ~exist(d, 'dir'), mkdir(d); end
+    
+    % Overwrite existing file
+    if exist(filename, 'file'), delete(filename), end
+    
+    % Actually print it
+    print(formatOpt, resOpt, filename)
 end
