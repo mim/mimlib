@@ -10,7 +10,7 @@ if isempty(col) || strcmp(c, '\n')
     col = 0;
 end
 fprintf(c)
-col = col + 1;
+col = col + length(sprintf(c));
 if col >= maxCol
     fprintf('\n')
     col = mod(col, maxCol);
