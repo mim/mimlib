@@ -12,7 +12,7 @@ function C = corr(ov)
 
 [r,c] = size(ov);
 if(r ~= c)
-  ov = cor(ov);
+  ov = cov(ov);
 end
 d = diag(ov);
 C = ov ./ sqrt(d*d');
