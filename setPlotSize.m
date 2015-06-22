@@ -21,7 +21,10 @@ if ~exist('sizeWindow', 'var'), sizeWindow = 0; end
 threshold = 0.003;
 
 set(H, 'Units', 'inches');
-set(H, 'ActivePositionProperty', 'Position');
+try
+    set(H, 'ActivePositionProperty', 'Position');
+catch 
+end
 figPos = get(H,'Position');
 set(H, 'PaperPositionMode', 'auto');
 
