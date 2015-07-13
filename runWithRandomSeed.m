@@ -17,6 +17,8 @@ if exist('rng', 'file')
     rng(state);
 
 else
+    warning('MimLib:RunWithRandomSeed', 'Function "rng" not found, using separate seeds for rand and randn');
+    
     stateRand  = rand('state');
     stateRandn = randn('state');
     rand('state', seed);
