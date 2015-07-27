@@ -5,16 +5,16 @@ function sOut = structCast(sIn, testFn, castFn)
 % of castFn applied to that field.  Does not recurse on cell arrays inside
 % structures. 
 
-fn = fieldnames(sIn);
-for a = 1:length(sIn)
-    for f = 1:length(fn)
-        if isstruct(sIn(a).(fn{f}))
+if isstruct(sIn)
+    fn = fieldnames(sIn);
+    for a = 1:length(sIn)
+        for f = 1:length(fn)
             sIn(a).(fn{f}) = structCast(sIn(a).(fn{f}), testFn, castFn);
-        elseif testFn(sIn(a).(fn{f}))
-            sIn(a).(fn{f}) = castFn(sIn(a).(fn{f}));
-        else
-            sIn(a).(fn{f}) = sIn(a).(fn{f});
         end
+    end
+else
+    if testFn(sIn)
+        sIn = castFn(sIn);
     end
 end
 sOut = sIn;
