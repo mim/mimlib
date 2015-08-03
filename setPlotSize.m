@@ -20,6 +20,11 @@ if ~exist('sizeWindow', 'var'), sizeWindow = 0; end
 
 threshold = 0.003;
 
+if strcmp(get(gcf, 'WindowStyle'), 'docked')
+    % Can't change window size if docked
+    return
+end
+
 set(H, 'Units', 'inches');
 try
     set(H, 'ActivePositionProperty', 'Position');
