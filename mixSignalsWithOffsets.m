@@ -3,7 +3,9 @@ function y = mixSignalsWithOffsets(x1, x2, fs, start1_s, start2_s, dither_db)
 % Shift two signals in time and add them together, zero padding as
 % necessary
 
-if ~exist('dither_db', 'var') || isempty(dither_db), dither_db = -80; end
+if ~exist('dither_db', 'var') || isempty(dither_db), dither_db = -inf; end
+if ~exist('start1_s', 'var') || isempty(start1_s), start1_s = 0; end
+if ~exist('start2_s', 'var') || isempty(start2_s), start2_s = 0; end
 
 [len1 nch1] = size(x1);
 [len2 nch2] = size(x2);
