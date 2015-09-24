@@ -1,8 +1,9 @@
-function setPlotSize(H, width, height, sizeWindow)
+function setPlotSizeHg2(H, width, height, sizeWindow)
 
-% setPlotSize(H, width, height, sizeWindow)
+% setPlotSizeHg2(H, width, height, sizeWindow)
 %
-% Set the size of a plot to be width x height inches.  H is a handle
+% Set the size of a plot to be width x height inches.  This function is for
+% matlab's new graphics system from R2014b (v8.4) onward.  H is a handle 
 % to a figure (e.g. from gcf) If sizeWindow is false, then the axes
 % are set to the specified size, ignoring colorbars and legends.  If
 % sizeWindow is true, then the whole window is set to the specified
@@ -18,28 +19,31 @@ if ~exist('width', 'var'), width = -1; end
 if ~exist('height', 'var'), height = -1; end
 if ~exist('sizeWindow', 'var'), sizeWindow = 0; end
 
-threshold = 0.003;
+threshold = 0.004;
 
 if strcmp(get(gcf, 'WindowStyle'), 'docked')
     % Can't change window size if docked
     return
 end
 
-set(H, 'Units', 'inches');
-try
-    set(H, 'ActivePositionProperty', 'Position');
-catch 
-    warning('Could not set active position property')
-end
-figPos = get(H,'Position');
-set(H, 'PaperPositionMode', 'auto');
+% See about TightInset
+% See about -loose option
+% See about -painters option
 
+figPos = get(H,'Position');
 if sizeWindow
   if width  < 0, width  = figPos(3); end
   if height < 0, height = figPos(4); end
-  finalPos = [figPos(1) figPos(2) width height];
-  set(H, 'Position', finalPos);
+
+  H.Units = 'inches';
+  H.PaperUnits = 'inches';
+  H.PaperOrientation = 'portrait';
+  H.PaperSize = [width height];
+  H.PaperPositionMode = 'manual';
+  H.PaperPosition = [0 0 width height];
 else
+  H.Units = 'inches';
+  H.PaperPositionMode = 'auto';
   plotWH = getAxesWH(H);
   if width  < 0, width  = plotWH(1); end
   if height < 0, height = plotWH(2); end
@@ -48,24 +52,25 @@ else
   moves = 0;
   whs = [];
   while 1
-    d = 0.99*([width height] - plotWH);
+    d = (1-threshold)*([width height] - plotWH);
     if max(abs(d)) <= threshold
         break
     end
     
-    figPos = get(H, 'Position');
-    finalPos = [figPos(1) figPos(2) figPos(3)+d(1) figPos(4)+d(2)];
-    set(H, 'Position', finalPos);
-    figPos = get(H,'Position');
+    %figPos = H.Position;
+    %finalPos = [figPos(1) figPos(2) figPos(3)+d(1) figPos(4)+d(2)];
+    H.OuterPosition(3:4) = H.OuterPosition(3:4) + d;
+    drawnow
+    pause(.3)
+    figPos = H.OuterPosition;
     plotWH = getAxesWH(H);
     moves = moves + 1;
     whs(moves,:) = figPos(3:4);
-
+    
     if (moves > 15)
       % Take the average of the last few positions
       wh = mean(whs(end-5:end,:),1);
-      finalPos = [figPos(1) figPos(2) wh];
-      set(H, 'Position', finalPos)
+      H.OuterPosition = [figPos(1) figPos(2) wh];
       break
     end
   end

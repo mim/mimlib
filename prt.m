@@ -68,8 +68,10 @@ end
 eo = unstruct(c_exp_opt);
 if c_opt.ToFile
   disp(filename)
-  my_export_fig(gcf, filename, eo{:});
-  %close
+  if c_opt.StartAt <= c_opt.NextNum
+      my_export_fig(gcf, filename, eo{:});
+      %close
+  end
 else
   disp(filename)
   if c_opt.StartAt <= c_opt.NextNum
@@ -131,7 +133,11 @@ if saveTicks
   end
 end
 
-setPlotSize(H, width, height, 0);
+if verLessThan('matlab', '8.4')
+    setPlotSize(H, width, height, 0);
+else
+    setPlotSizeHg2(H, width, height, 0);
+end
 
 % set(H, 'Units', 'inches');
 % figPos = get(H,'Position');
