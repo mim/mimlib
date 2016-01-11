@@ -162,7 +162,8 @@ if strcmp(format, 'auto')
   % its contents
   hasImages = ~isempty(findall(H, 'type', 'image'));
   hasPlots  = ~isempty(findall(H, 'type', 'line')) || ...
-      ~isempty(findall(H, 'type', 'surf'));
+      ~isempty(findall(H, 'type', 'surf')) || ...
+      ~isempty(findall(H, 'type', 'patch')) ;
   switch 2*hasImages + hasPlots
    case 1 % just plots
     %disp('Detected line plot')
