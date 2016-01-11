@@ -1,6 +1,6 @@
 function [x fs] = wavReadBetter(filename, dur_s)
 
-% Simple wrapper around wavread that takes limits in seconds
+% Simple wrapper around audioread that takes limits in seconds
 %
 % [x fs] = wavReadBetter(filename, dur_s)
 %

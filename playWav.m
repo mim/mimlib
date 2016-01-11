@@ -10,7 +10,7 @@ end
 
 for i = 1:length(wavs)
     fprintf('%d: %s channel %d\n', i, wavs{i}, chan);
-    [x fs] = wavread(wavs{i});
+    [x fs] = audioread(wavs{i});
     if showSpec
         X = stft(x(:,chan)', 1024, 1024, 256);
         subplots(db(X));

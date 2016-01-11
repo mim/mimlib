@@ -7,7 +7,7 @@ if nargin < 6, forceMono = 1; end
 if nargin < 5, preemph = 1; end
 
 if any(length(len_s) == [0 1])
-    [x fsOrig] = wavread(fileName);
+    [x fsOrig] = audioread(fileName);
 elseif length(len_s) == 2
     [x fsOrig] = wavReadBetter(fileName, len_s);
 else

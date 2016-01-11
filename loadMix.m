@@ -22,5 +22,7 @@ X2 = X2 / sqrt(snr);
 X = X1 + X2;
 
 function [len_s fs] = wavFileInfo(fileName)
-[sizes fs] = wavread(fileName, 'size');
-len_s = sizes(1) / fs;
+info = audioinfo(fileName);
+fs = info.SampleRate;
+nSamp = info.TotalSamples;
+len_s = nSamp / fs;
