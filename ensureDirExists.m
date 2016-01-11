@@ -9,7 +9,9 @@ if isDir
 else
     d = fileparts(fileName);
 end
-    
+if isempty(d), d = '.'; end
+
+
 if ~exist(d, 'dir')
     [status msg] = mkdir(d);
 
