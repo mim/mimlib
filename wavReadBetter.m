@@ -19,16 +19,19 @@ if ~exist(filename, 'file')
 end
 
 if isempty(dur_s)
-    [x fs] = wavread(filename);
+    [x fs] = audioread(filename);
 else
-    [siz fs] = wavread(filename, 'size');
-    nSamp = siz(1);
+    info = audioinfo(inFile);
+    fs = info.SampleRate;
+    nSamp = info.TotalSamples;
 
     dur = round(dur_s * fs);
     if length(dur) == 2
         dur(1) = dur(1) + 1;
+    else
+        dur = [1 dur];
     end
     dur = min(dur, nSamp);
 
-    [x fs] = wavread(filename, dur);
+    [x fs] = audioread(filename, dur);
 end
