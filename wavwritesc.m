@@ -5,4 +5,4 @@ function wavwritesc(y, varargin)
 % Copyright (C) 2005 Michael Mandel, mim at ee columbia edu;
 % distributable under GPL
 
-wavwrite(y * .95 / max(abs(y)), varargin{:});
+wavWriteBetter(y * .95 / max(abs(y)), varargin{:});
