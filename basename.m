@@ -10,7 +10,7 @@ if withExtension
     f = [f e];
 end
 while withDirs > 0
-    [d,f2] = fileparts(d);
-    f = fullfile(f2, f);
+[d,f2,e2] = fileparts(d);
+    f = fullfile([f2 e2], f);
     withDirs = withDirs - 1;
 end
