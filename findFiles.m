@@ -68,4 +68,4 @@ for i = 1:length(fullPaths)
     files{i} = fullPaths{i}(startAt:end);
 end
 
-fprintf('Found %d files\n', length(files));
+fprintf('Found %d files in %s\n', length(files), baseDir);
